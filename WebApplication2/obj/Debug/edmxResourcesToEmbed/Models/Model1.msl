@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="tranningModelStoreContainer" CdmEntityContainer="tranningEntities">
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="tranningModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="EmpDepartment" ColumnName="EmpDepartment" />
+          <ScalarProperty Name="EmpPhone" ColumnName="EmpPhone" />
+          <ScalarProperty Name="EmpAddress" ColumnName="EmpAddress" />
+          <ScalarProperty Name="EmpEmailId" ColumnName="EmpEmailId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="FN_Create_Rec" FunctionName="tranningModel.Store.Create_Rec" />
+    <FunctionImportMapping FunctionImportName="Delete_Rec" FunctionName="tranningModel.Store.Delete_Rec" />
+    <FunctionImportMapping FunctionImportName="FN_Disp_Rec" FunctionName="tranningModel.Store.Disp_Rec" />
+    <FunctionImportMapping FunctionImportName="FN_Edit_Rec" FunctionName="tranningModel.Store.Edit_Rec" />
+    <FunctionImportMapping FunctionImportName="Update_Rec" FunctionName="tranningModel.Store.Update_Rec" />
+  </EntityContainerMapping>
+</Mapping>
