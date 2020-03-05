@@ -6,32 +6,18 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication2.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class FN_Edit_Rec_Result
     {
         public int EmpId { get; set; }
-        //[Required(ErrorMessage = "Please Enter Employee Name")]
         public string EmpName { get; set; }
-
-        //[Required(ErrorMessage = "Please Enter Department Name")]
         public string EmpDepartment { get; set; }
-
-        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
-                   //ErrorMessage = "Please Enter valid Phone Number")]
-        //[Required(ErrorMessage = "Please Enter Phone Number")]
         public string EmpPhone { get; set; }
-
-        //[Required(ErrorMessage = "Please Enter Employee Address")]
-
         public string EmpAddress { get; set; }
-
-        //[EmailAddress(ErrorMessage = "Please Enter Valid Email Address")]
-        //[Required(ErrorMessage = "Please Enter Email Address")]
         public string EmpEmailId { get; set; }
     }
 }

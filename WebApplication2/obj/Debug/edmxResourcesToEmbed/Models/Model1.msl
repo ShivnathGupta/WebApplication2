@@ -13,10 +13,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="FN_Create_Rec" FunctionName="tranningModel.Store.Create_Rec" />
     <FunctionImportMapping FunctionImportName="Delete_Rec" FunctionName="tranningModel.Store.Delete_Rec" />
     <FunctionImportMapping FunctionImportName="FN_Disp_Rec" FunctionName="tranningModel.Store.Disp_Rec" />
     <FunctionImportMapping FunctionImportName="FN_Edit_Rec" FunctionName="tranningModel.Store.Edit_Rec" />
     <FunctionImportMapping FunctionImportName="Update_Rec" FunctionName="tranningModel.Store.Update_Rec" />
+    <FunctionImportMapping FunctionImportName="Create_Record" FunctionName="tranningModel.Store.Create_Record" />
+    <EntitySetMapping Name="Logins">
+      <EntityTypeMapping TypeName="tranningModel.Login">
+        <MappingFragment StoreEntitySet="Login">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="LoginCheck" FunctionName="tranningModel.Store.LoginCheck" />
   </EntityContainerMapping>
 </Mapping>

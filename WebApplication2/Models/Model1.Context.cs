@@ -28,6 +28,7 @@ namespace WebApplication2.Models
         }
     
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Login> Logins { get; set; }
     
         public virtual ObjectResult<Employee> FN_Create_Rec(string empName, string empDepartment, string empPhone, string empAddress, string empEmailId)
         {
@@ -79,13 +80,13 @@ namespace WebApplication2.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Employee>("FN_Create_Rec", mergeOption, empNameParameter, empDepartmentParameter, empPhoneParameter, empAddressParameter, empEmailIdParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> Delete_Rec(Nullable<int> empId)
+        public virtual int Delete_Rec(Nullable<int> empId)
         {
             var empIdParameter = empId.HasValue ?
                 new ObjectParameter("EmpId", empId) :
                 new ObjectParameter("EmpId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Delete_Rec", empIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Delete_Rec", empIdParameter);
         }
     
         public virtual ObjectResult<Employee> FN_Disp_Rec()
@@ -116,7 +117,7 @@ namespace WebApplication2.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Employee>("FN_Edit_Rec", mergeOption, empidParameter);
         }
     
-        public virtual ObjectResult<Employee> Update_Rec(Nullable<int> empid, string empName, string empDepartment, string empPhone, string empAddress, string empEmailId)
+        public virtual int Update_Rec(Nullable<int> empid, string empName, string empDepartment, string empPhone, string empAddress, string empEmailId)
         {
             var empidParameter = empid.HasValue ?
                 new ObjectParameter("Empid", empid) :
@@ -142,15 +143,11 @@ namespace WebApplication2.Models
                 new ObjectParameter("EmpEmailId", empEmailId) :
                 new ObjectParameter("EmpEmailId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Employee>("Update_Rec", empidParameter, empNameParameter, empDepartmentParameter, empPhoneParameter, empAddressParameter, empEmailIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Rec", empidParameter, empNameParameter, empDepartmentParameter, empPhoneParameter, empAddressParameter, empEmailIdParameter);
         }
     
-        public virtual ObjectResult<Employee> Update_Rec(Nullable<int> empid, string empName, string empDepartment, string empPhone, string empAddress, string empEmailId, MergeOption mergeOption)
+        public virtual int Create_Record(string empName, string empDepartment, string empPhone, string empAddress, string empEmailId)
         {
-            var empidParameter = empid.HasValue ?
-                new ObjectParameter("Empid", empid) :
-                new ObjectParameter("Empid", typeof(int));
-    
             var empNameParameter = empName != null ?
                 new ObjectParameter("EmpName", empName) :
                 new ObjectParameter("EmpName", typeof(string));
@@ -171,7 +168,20 @@ namespace WebApplication2.Models
                 new ObjectParameter("EmpEmailId", empEmailId) :
                 new ObjectParameter("EmpEmailId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Employee>("Update_Rec", mergeOption, empidParameter, empNameParameter, empDepartmentParameter, empPhoneParameter, empAddressParameter, empEmailIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Create_Record", empNameParameter, empDepartmentParameter, empPhoneParameter, empAddressParameter, empEmailIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> LoginCheck(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("LoginCheck", usernameParameter, passwordParameter);
         }
     }
 }

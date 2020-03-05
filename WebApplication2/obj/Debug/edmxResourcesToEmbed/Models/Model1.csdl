@@ -20,20 +20,32 @@
       <Parameter Name="EmpAddress" Mode="In" Type="String" />
       <Parameter Name="EmpEmailId" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="Delete_Rec" ReturnType="Collection(Int32)">
+    <FunctionImport Name="Delete_Rec">
       <Parameter Name="EmpId" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="FN_Disp_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)" />
     <FunctionImport Name="FN_Edit_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)">
       <Parameter Name="Empid" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="Update_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)">
+    <FunctionImport Name="Update_Rec">
       <Parameter Name="Empid" Mode="In" Type="Int32" />
       <Parameter Name="EmpName" Mode="In" Type="String" />
       <Parameter Name="EmpDepartment" Mode="In" Type="String" />
       <Parameter Name="EmpPhone" Mode="In" Type="String" />
       <Parameter Name="EmpAddress" Mode="In" Type="String" />
       <Parameter Name="EmpEmailId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Create_Record">
+      <Parameter Name="EmpName" Mode="In" Type="String" />
+      <Parameter Name="EmpDepartment" Mode="In" Type="String" />
+      <Parameter Name="EmpPhone" Mode="In" Type="String" />
+      <Parameter Name="EmpAddress" Mode="In" Type="String" />
+      <Parameter Name="EmpEmailId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Logins" EntityType="tranningModel.Login" />
+    <FunctionImport Name="LoginCheck" ReturnType="Collection(Int32)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="Disp_Rec_Result">
@@ -51,5 +63,26 @@
     <Property Type="String" Name="EmpPhone" Nullable="true" MaxLength="10" />
     <Property Type="String" Name="EmpAddress" Nullable="true" MaxLength="100" />
     <Property Type="String" Name="EmpEmailId" Nullable="true" MaxLength="254" />
+  </ComplexType>
+  <ComplexType Name="FN_Edit_Rec_Result">
+    <Property Type="Int32" Name="EmpId" Nullable="false" />
+    <Property Type="String" Name="EmpName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmpDepartment" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmpPhone" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="EmpAddress" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="EmpEmailId" Nullable="true" MaxLength="254" />
+  </ComplexType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="LoginCheck_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
   </ComplexType>
 </Schema>

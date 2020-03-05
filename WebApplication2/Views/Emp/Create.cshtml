@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("", "",FormMethod.Post, new { @id = "registerFormId", @class = "form-horizontal",name= "registerFormId" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Employee</h4>
         <hr />
@@ -66,7 +66,15 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+    function validate() {
+        var ptrn = /^([^0-9\W]*)$/;
+        if (ptrn.test(document.registerFormId.EmpName.value)) {
+            document.registerFormId.EmpName.style.backgroundColor = "green";
+        }
+        else {
+            document.registerFormId.EmpName.style.backgroundColor = "red";
+        }
+        document.registerFormId.EmpName.addEventListener("keyup", validate);
+    }
+</script>

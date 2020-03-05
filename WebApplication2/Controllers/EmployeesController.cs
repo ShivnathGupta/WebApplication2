@@ -13,7 +13,14 @@ namespace WebApplication2.Controllers
     public class EmployeesController : Controller
     {
         private tranningEntities db = new tranningEntities();
-
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["User"] != null)
+                base.OnActionExecuting(filterContext);
+            else
+                //RedirectToAction("Login", "Login");
+                filterContext.Result = new RedirectResult("~/");
+        }
         // GET: Employees
         public ActionResult Index()
         {

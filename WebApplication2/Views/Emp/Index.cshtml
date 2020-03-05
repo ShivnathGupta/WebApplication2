@@ -3,12 +3,13 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<h1>Welcome @Session["User"]</h1>
 <h2>Employee</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@Html.ActionLink("Add New Employee", "Create", "", new { @class = "btn btn-primary" })
+@Html.ActionLink("Logout", "Logout", "Login", "", new { @class = "logout" }) 
+<br />
+<br />
 <table class="table">
     <tr>
         <th>
@@ -29,28 +30,49 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpDepartment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpPhone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpEmailId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EmpId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EmpId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpDepartment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpEmailId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmpId }, new { @class = "btn btn-primary" }) |
 
+                <a href="Delete/" data-toggle="modal" data-target="#myModal_@Html.DisplayFor(modelItem => item.EmpId)" class="btn btn-danger">DELETE</a>
+                <div id="myModal_@Html.DisplayFor(modelItem => item.EmpId)" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Delete Employee Id: @Html.DisplayFor(modelItem => item.EmpId)</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Do You Want to Delete <b>@Html.DisplayFor(modelItem => item.EmpName)</b> Record</h3>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.EmpId }, new { @class = "btn btn-danger" })
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
 </table>
+

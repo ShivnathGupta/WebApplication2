@@ -11,7 +11,15 @@
     <Property Name="EmpAddress" Type="varchar" MaxLength="100" />
     <Property Name="EmpEmailId" Type="varchar" MaxLength="254" />
   </EntityType>
-  <Function Name="Create_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Function Name="Create_Record" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="EmpName" Type="varchar" Mode="In" />
     <Parameter Name="EmpDepartment" Type="varchar" Mode="In" />
     <Parameter Name="EmpPhone" Type="varchar" Mode="In" />
@@ -25,6 +33,10 @@
   <Function Name="Edit_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Empid" Type="int" Mode="In" />
   </Function>
+  <Function Name="LoginCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="Update_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Empid" Type="int" Mode="In" />
     <Parameter Name="EmpName" Type="varchar" Mode="In" />
@@ -35,5 +47,6 @@
   </Function>
   <EntityContainer Name="tranningModelStoreContainer">
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

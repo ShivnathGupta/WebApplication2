@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="tranningModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="tranningModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmpId" />
@@ -16,7 +16,15 @@
           <Property Name="EmpAddress" Type="varchar" MaxLength="100" />
           <Property Name="EmpEmailId" Type="varchar" MaxLength="254" />
         </EntityType>
-        <Function Name="Create_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="Create_Record" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmpName" Type="varchar" Mode="In" />
           <Parameter Name="EmpDepartment" Type="varchar" Mode="In" />
           <Parameter Name="EmpPhone" Type="varchar" Mode="In" />
@@ -30,6 +38,10 @@
         <Function Name="Edit_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Empid" Type="int" Mode="In" />
         </Function>
+        <Function Name="LoginCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Update_Rec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Empid" Type="int" Mode="In" />
           <Parameter Name="EmpName" Type="varchar" Mode="In" />
@@ -40,9 +52,9 @@
         </Function>
         <EntityContainer Name="tranningModelStoreContainer">
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="tranningModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -66,20 +78,32 @@
             <Parameter Name="EmpAddress" Mode="In" Type="String" />
             <Parameter Name="EmpEmailId" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="Delete_Rec" ReturnType="Collection(Int32)">
-            <Parameter Name="EmpId" Mode="In" Type="Int32" />
+          <FunctionImport Name="Delete_Rec">
+          <Parameter Name="EmpId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FN_Disp_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)" />
           <FunctionImport Name="FN_Edit_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)">
-            <Parameter Name="Empid" Mode="In" Type="Int32" />
+          <Parameter Name="Empid" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Update_Rec" EntitySet="Employees" ReturnType="Collection(tranningModel.Employee)">
+          <FunctionImport Name="Update_Rec">
             <Parameter Name="Empid" Mode="In" Type="Int32" />
             <Parameter Name="EmpName" Mode="In" Type="String" />
             <Parameter Name="EmpDepartment" Mode="In" Type="String" />
             <Parameter Name="EmpPhone" Mode="In" Type="String" />
             <Parameter Name="EmpAddress" Mode="In" Type="String" />
             <Parameter Name="EmpEmailId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Create_Record">
+            <Parameter Name="EmpName" Mode="In" Type="String" />
+            <Parameter Name="EmpDepartment" Mode="In" Type="String" />
+            <Parameter Name="EmpPhone" Mode="In" Type="String" />
+            <Parameter Name="EmpAddress" Mode="In" Type="String" />
+            <Parameter Name="EmpEmailId" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Logins" EntityType="tranningModel.Login" />
+          <FunctionImport Name="LoginCheck" ReturnType="Collection(Int32)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Disp_Rec_Result">
@@ -97,6 +121,27 @@
           <Property Type="String" Name="EmpPhone" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="EmpAddress" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="EmpEmailId" Nullable="true" MaxLength="254" />
+        </ComplexType>
+        <ComplexType Name="FN_Edit_Rec_Result">
+          <Property Type="Int32" Name="EmpId" Nullable="false" />
+          <Property Type="String" Name="EmpName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EmpDepartment" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EmpPhone" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="EmpAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EmpEmailId" Nullable="true" MaxLength="254" />
+        </ComplexType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="LoginCheck_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -116,13 +161,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="FN_Create_Rec" FunctionName="tranningModel.Store.Create_Rec" />
           <FunctionImportMapping FunctionImportName="Delete_Rec" FunctionName="tranningModel.Store.Delete_Rec" />
           <FunctionImportMapping FunctionImportName="FN_Disp_Rec" FunctionName="tranningModel.Store.Disp_Rec">
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="FN_Edit_Rec" FunctionName="tranningModel.Store.Edit_Rec">
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Update_Rec" FunctionName="tranningModel.Store.Update_Rec" />
+          <FunctionImportMapping FunctionImportName="Create_Record" FunctionName="tranningModel.Store.Create_Record" />
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="tranningModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LoginCheck" FunctionName="tranningModel.Store.LoginCheck">
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

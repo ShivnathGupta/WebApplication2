@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,10 +11,23 @@ namespace WebApplication2.Controllers
     public class EmpController : Controller
     {
         tranningEntities obj = new tranningEntities();
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["User"] != null)
+                base.OnActionExecuting(filterContext);
+            else
+                //RedirectToAction("Login", "Login");
+                filterContext.Result = new RedirectResult("~/");
+        }
         // GET: Emp
+
         public ActionResult Index()
         {
-            return View(obj.FN_Disp_Rec().ToList());
+            
+                return View(obj.FN_Disp_Rec().ToList());
+            
+         
         }
 
         // GET: Emp/Create
@@ -26,24 +40,24 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult Create(Employee employee)
         {
+           
             try
             {
-                obj.FN_Create_Rec(employee.EmpName,employee.EmpDepartment,employee.EmpPhone,employee.EmpAddress,employee.EmpEmailId);
-                // TODO: Add insert logic here
-
+                obj.Create_Record(employee.EmpName, employee.EmpDepartment, employee.EmpPhone, employee.EmpAddress, employee.EmpEmailId);
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
+
             }
         }
 
         // GET: Emp/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int ID)
         {
             
-            return View(obj.FN_Edit_Rec(id).SingleOrDefault());
+            return View(obj.FN_Edit_Rec(ID).SingleOrDefault());
         }
 
         // POST: Emp/Edit/5
@@ -66,20 +80,18 @@ namespace WebApplication2.Controllers
         }
 
         // GET: Emp/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View(obj.FN_Edit_Rec(id).SingleOrDefault());
-        }
+        //public ActionResult Delete(int ID)
+        //{
+        //    return View(obj.FN_Edit_Rec(ID).SingleOrDefault());
+        //}
 
         // POST: Emp/Delete/5
-        [HttpPost]
+       
         public ActionResult Delete(int id, Employee employee)
         {
             try
             {
                 obj.Delete_Rec(id);
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
