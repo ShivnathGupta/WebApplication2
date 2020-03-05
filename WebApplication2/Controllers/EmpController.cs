@@ -12,14 +12,14 @@ namespace WebApplication2.Controllers
     {
         tranningEntities obj = new tranningEntities();
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            if (Session["User"] != null)
-                base.OnActionExecuting(filterContext);
-            else
-                //RedirectToAction("Login", "Login");
-                filterContext.Result = new RedirectResult("~/");
-        }
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    if (Session["User"] != null)
+        //        base.OnActionExecuting(filterContext);
+        //    else
+        //        //RedirectToAction("Login", "Login");
+        //        filterContext.Result = new RedirectResult("~/");
+        //}
         // GET: Emp
 
         public ActionResult Index()

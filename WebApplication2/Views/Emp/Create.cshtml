@@ -7,9 +7,11 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm("", "",FormMethod.Post, new { @id = "registerFormId", @class = "form-horizontal",name= "registerFormId" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+
+
 
     <div class="form-horizontal">
         <h4>Employee</h4>
@@ -19,7 +21,7 @@
             @Html.LabelFor(model => model.EmpName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmpName, "", new { @class = "text-danger" })
+                <span class="text-danger" id="ErrorName"></span>
             </div>
         </div>
 
@@ -27,7 +29,7 @@
             @Html.LabelFor(model => model.EmpDepartment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmpDepartment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmpDepartment, "", new { @class = "text-danger" })
+                <span class="text-danger" id="ErrorDepartment"></span>
             </div>
         </div>
 
@@ -35,7 +37,7 @@
             @Html.LabelFor(model => model.EmpPhone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmpPhone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmpPhone, "", new { @class = "text-danger" })
+                <span class="text-danger" id="ErrorPhone"></span>
             </div>
         </div>
 
@@ -43,7 +45,7 @@
             @Html.LabelFor(model => model.EmpAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmpAddress, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmpAddress, "", new { @class = "text-danger" })
+                <span class="text-danger" id="ErrorAddress"></span>
             </div>
         </div>
 
@@ -51,30 +53,56 @@
             @Html.LabelFor(model => model.EmpEmailId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmpEmailId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmpEmailId, "", new { @class = "text-danger" })
+                <span class="text-danger" id="ErrorEmailId"></span>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" id="cc" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-<script>
-    function validate() {
-        var ptrn = /^([^0-9\W]*)$/;
-        if (ptrn.test(document.registerFormId.EmpName.value)) {
-            document.registerFormId.EmpName.style.backgroundColor = "green";
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //alert("hello");
+        $("#cc").click(function () {
+            //alert("hello");
+           validateform();
+        })
+
+    });
+    function validateform() {
+        if ($("#EmpName").val() == "") {
+            $("#ErrorName").text ("Please Enter Employee name");
+            return false;
         }
-        else {
-            document.registerFormId.EmpName.style.backgroundColor = "red";
+        if ($("#EmpDepartment").val() == "") {
+            $("#ErrorDepartment").text("Please Enter Department name");
+            return false;
         }
-        document.registerFormId.EmpName.addEventListener("keyup", validate);
+        if ($("#EmpPhone").val() == "") {
+            $("#ErrorPhone").text("Please Enter Phone Number name");
+            return false;
+        }
+        if ($("#EmpAddress").val() == "") {
+            $("#ErrorAddress").text("Please Enter Address");
+            return false;
+        }
+        if ($("#EmpEmailId").val() == "") {
+            $("#ErrorEmailId").text("Please Enter EmailId");
+            return false;
+        }
     }
 </script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

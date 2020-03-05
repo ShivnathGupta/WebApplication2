@@ -15,10 +15,10 @@ namespace WebApplication2.Models
     public partial class Employee
     {
         public int EmpId { get; set; }
-        //[Required(ErrorMessage = "Please Enter Employee Name")]
+        //[Required]
         public string EmpName { get; set; }
 
-        //[Required(ErrorMessage = "Please Enter Department Name")]
+        [Required(ErrorMessage = "Please Enter Department Name")]
         public string EmpDepartment { get; set; }
 
         //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
